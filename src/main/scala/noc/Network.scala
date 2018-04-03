@@ -23,6 +23,14 @@ class Network extends Module {
       in.size := 0.U
     }
   }
+
+  def connect(from:Int, to:Int, dir: Int) = {
+    routers(from).in(dir):= routers(to).out(Direction.opposite(dir))
+  }
+
+  (0 until Config.numRouters  ).foreach{i =>
+
+  }
 }
 
 object Network extends App {

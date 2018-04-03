@@ -3,7 +3,7 @@ def scalacOptionsVersion(scalaVersion: String): Seq[String] = {
     // If we're building with Scala > 2.11, enable the compile option
     //  switch to support our anonymous Bundle definitions:
     //  https://github.com/scala/bug/issues/10047
-    CrossVersion.partialVersion(scalaVersion) match {p
+    CrossVersion.partialVersion(scalaVersion) match {
       case Some((2, scalaMajor: Int)) if scalaMajor < 12 => Seq()
       case _ => Seq("-Xsource:2.11")
     }

@@ -1,5 +1,8 @@
 package noc
 
+import chisel3._
+import chisel3.util._
+
 object Config {
   val numDirections = 5
   val numRouters = 16
@@ -9,4 +12,8 @@ object Config {
   def x(id: Int) = id % 4
 
   def y(id: Int) = id / 4
+
+  def x(id: UInt) = id % 4.U
+
+  def y(id: UInt) = id / 4.U
 }

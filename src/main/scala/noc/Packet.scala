@@ -8,4 +8,5 @@ class Packet extends Bundle {
   val src = UInt(8.W)
   val dest = UInt(8.W)
   val size = UInt(8.W)
+  val dir = UInt(log2Ceil(Config.numDirections).W)
 }

@@ -6,19 +6,22 @@ import chisel3.util._
 
 class RouterTester(router: Router) extends PeekPokeTester(router){
   router.io.in.foreach{in =>
-    poke(in.id, 0)
-    poke(in.src, 0)
-    poke(in.dest, 0)
-    poke(in.size, 0)
+    poke(in.valid, true)
+
+    poke(in.bits.id, 0)
+    poke(in.bits.src, 0)
+    poke(in.bits.dest, 0)
+    poke(in.bits.size, 0)
   }
 
   router.io.out.foreach{out =>
-    val  id = peek(out.id)
-    val  src = peek(out.src)
-    val  dest = peek(out.dest)
-    val  size = peek(out.size)
+    val  valid = peek(out.valid)
+    val  id = peek(out.bits.id)
+    val  src = peek(out.bits.src)
+    val  dest = peek(out.bits.dest)
+    val  size = peek(out.bits.size)
 
-    scala.Predef.printf(s"id=$id, src=$src, dest=$dest, size=$size\n")
+    scala.Predef.printf(s"out: valid=$valid, id=$id, src=$src, dest=$dest, size=$size\n")
   }
 }
 

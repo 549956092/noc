@@ -24,12 +24,28 @@ class Network extends Module {
     }
   }
 
-  def connect(from:Int, to:Int, dir: Int) = {
-    routers(from).in(dir):= routers(to).out(Direction.opposite(dir))
+  def connect(from: Int, to: Int, dir: Int) = {
+    routers(from).in(dir) := routers(to).out(Direction.opposite(dir))
+
+    scala.Predef.printf(s"connect: from=$from, to=$to, dir=$dir\n")
   }
 
-  (0 until Config.numRouters  ).foreach{i =>
+  (0 until Config.numRouters).foreach { i =>
+    val x = Config.x(i)
+    val y = Config.y(i)
 
+    if (y > 0) {
+      connect(i, i - Config.width, Direction.north)
+    }
+    if (x < (Config.width - 1)) {
+      connect(i, i + 1, Direction.east)
+    }
+    if (y < (Config.width - 1)) {
+      connect(i, i + Config.width, Direction.south)
+    }
+    if (x > 0) {
+      connect(i, i - 1, Direction.west)
+    }
   }
 }
 

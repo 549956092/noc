@@ -12,9 +12,6 @@ class Router extends Module {
     out.dest := 0.U
     out.size := 0.U
   }
-
-  //  val x = Reg(UInt(8.W))
-  //  val y = Reg(UInt(16.W))
 }
 
 object Router extends App {

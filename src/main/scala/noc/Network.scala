@@ -6,17 +6,25 @@ import chisel3.util._
 class Network extends Module {
   val io = IO(new NetworkIO)
 
+  io.in.foreach { in =>
+    in.ready := false.B
+  }
+
   io.out.foreach { out =>
-    out.valid:=false.B
-    out.bits:=DontCare
+    out.valid := false.B
+    out.bits := DontCare
   }
 
   val routers = VecInit((0 until Config.numRouters).map(i => Module(new Router(i)).io))
 
   routers.foreach { router =>
     router.in.foreach { in =>
-      in.valid:=false.B
-      in.bits:=DontCare
+      in.valid := false.B
+      in.bits := DontCare
+    }
+
+    router.out.foreach { out =>
+      out.ready := false.B
     }
   }
 

@@ -17,7 +17,7 @@ class Router(id: Int) extends Module {
 
   val inputBuffers = VecInit((0 until Direction.size).map(i => Module(new Queue(new Packet(), 16)).io))
 
-  val dirOut = inputBuffers.map(inputBuffer => UInt(log2Ceil(Direction.size).W))
+  val dirOut = Wire(Vec(Direction.size, UInt(log2Ceil(Direction.size).W)))
 
   val demuxes = VecInit((0 until Direction.size).map(i => Module(new Demux(new Packet(), Direction.size)).io))
 
@@ -31,15 +31,23 @@ class Router(id: Int) extends Module {
     val demux = demuxes(i)
     val dir = dirOut(i)
 
-    demux.in := inputBuffer.deq
+    demux.in.valid := inputBuffer.deq.valid
+    demux.in.bits := inputBuffer.deq.bits
+   inputBuffer.deq.ready := demux.in.ready
+
     demux.select := dir
   }
 
   io.out.zipWithIndex.foreach { case (out, i) =>
     val arbiter = arbiters(i)
 
-    arbiter.in <> demuxes.map(_.out(i))
-    out := arbiter.out
+    arbiter.in.zip(demuxes.map(_.out(i))).foreach{case(a,b) =>
+      a.valid := b.valid
+      a.bits := b.bits
+      b.ready := a.ready
+    }
+
+    out <> arbiter.out
   }
 }
 

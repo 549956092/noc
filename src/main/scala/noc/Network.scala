@@ -11,7 +11,7 @@ class Network extends Module {
     out.bits:=DontCare
   }
 
-  val routers = VecInit((0 until Config.numRouters).map(i => Module(new Router).io))
+  val routers = VecInit((0 until Config.numRouters).map(i => Module(new Router(i)).io))
 
   routers.foreach { router =>
     router.in.foreach { in =>

@@ -7,6 +7,8 @@ object Direction {
   val south = 3
   val west = 4
 
+  val size = 5
+
   def opposite(direction: Int) = {
     direction match {
       case `north` => south

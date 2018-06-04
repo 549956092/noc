@@ -16,4 +16,8 @@ object Config {
   def x(id: UInt) = id % 4.U
 
   def y(id: UInt) = id / 4.U
+
+  def x(id: SInt) = id % 4.S
+
+  def y(id: SInt) = id / 4.S
 }
